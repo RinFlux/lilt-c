@@ -158,7 +158,12 @@ host/         PC 端，host_bus.c、main.c、render.py、check_panel.py、tinyfo
 docs/         README 用的图，加 internals.md
 library.properties   IDE 认这个库靠它，architectures=esp32 决定示例菜单在哪些板子下出现
 keywords.txt         IDE 的语法高亮词表
+CONTRIBUTORS         谁出的方向、谁写的代码，手写的一份名单
 ```
+
+## 致谢
+
+Rin Flux 出方向、接线和验收，Qoder 写代码。Qoder 是 Qoder 团队的 AI 编程助手，引擎、自检、录帧脚本和这两份文档都出自它的手。GitHub 的贡献者图谱只认账号，它没有账号，名字只能写在这里。
 
 ## 许可
 
