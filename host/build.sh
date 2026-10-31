@@ -3,8 +3,8 @@
 #
 #   sh host/build.sh
 #
-# 产出：out/lab.exe（自检程序）、out/frames.raw（原始帧）、
-#       out/spring-lab.gif（动画）、out/contact.png（概览图，一眼看完 420 帧）
+# 产出：out/lab（自检程序）、out/frames*.raw（三段原始帧），
+#       每段各出一个 .gif 和一张 *-contact.png（概览图，每 12 帧拼一格）
 set -e
 cd "$(dirname "$0")/.."
 mkdir -p out
@@ -16,8 +16,9 @@ gcc -std=gnu11 -Wall -Wextra -g -o out/lab \
     host/host_bus.c host/main.c -lm
 
 ./out/lab
-python host/render.py --every 10
+python host/render.py --src out/frames.raw         --gif out/spring-lab.gif \
+                      --contact out/spring-lab-contact.png --every 12
 python host/render.py --src out/frames-gallery.raw --gif out/gallery.gif \
-                      --contact out/gallery-contact.png --every 12
-python host/render.py --src out/frames-tour.raw --gif out/tour.gif \
-                      --contact out/tour-contact.png --every 12
+                      --contact out/gallery-contact.png    --every 12
+python host/render.py --src out/frames-tour.raw    --gif out/tour.gif \
+                      --contact out/tour-contact.png       --every 12

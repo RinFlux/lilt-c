@@ -149,7 +149,7 @@ sh host/build.sh          # 编译 + 跑 101 项自检 + 录三段帧 + 出 GIF 
 sh host/build-esp32.sh    # 用 Arduino 的 riscv32 工具链真交叉编译一遍，报占用
 ```
 
-`host/build.sh` 产出 `out/tour.gif`、`out/tour-contact.png`、`out/gallery.gif`、`out/gallery-contact.png`、`out/spring-lab.gif`、`out/contact.png`。`*-contact.png` 是每 12 帧拼一张的概览图，一眼看完整个应用。想单独出图：
+`host/build.sh` 产出 `out/tour.gif`、`out/tour-contact.png`、`out/gallery.gif`、`out/gallery-contact.png`、`out/spring-lab.gif`、`out/spring-lab-contact.png`。`*-contact.png` 是每 12 帧拼一张的概览图，一眼看完整个应用。想单独出图：
 
 ```sh
 python host/render.py --src out/frames-tour.raw --gif out/t.gif --contact out/c.png --every 12

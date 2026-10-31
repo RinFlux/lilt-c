@@ -120,9 +120,11 @@ sh host/build-esp32.sh    # 用 Arduino 自带的 riscv32 工具链真交叉编�
 
 录下来的帧就是 SSD1306 的显存格式，页主序，一个字节竖着管 8 个像素，低位在上，所以 PC 上看到的和板子上看到的必然一致。`render.py` 把它们解成 GIF 和概览图，概览图每 12 帧拼一张，一眼看完整个应用。`out/` 不进仓库，README 用的那几张在 `docs/`。
 
-下面两张是概览图，左边起第一格是第 0 帧，往右每格差 12 帧（400 毫秒）。
+下面三张是概览图，左边起第一格是第 0 帧，往右每格差 12 帧（400 毫秒），一张看完整个应用怎么动。
 
 <img src="docs/tour-contact.png" width="780" alt="巡演的概览图">
+
+<img src="docs/spring-lab-contact.png" width="780" alt="弹簧实验台的概览图">
 
 <img src="docs/gallery-contact.png" width="780" alt="Gallery 的概览图">
 
