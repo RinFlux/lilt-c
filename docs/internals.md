@@ -38,6 +38,7 @@ Gallery 里 MENU 键换"手感档位"就是这么实现的，没有第二套动�
 一个页面就是一个全局 `LlPage` 加一个 `build()`。框架负责根容器、滚动视口、进/出场动画、焦点与光标、方向键走焦、OK 触发、Back 出栈。
 
 ```c
+#include <Arduino.h>
 #include "lilt_c.h"
 
 /* 文案的缓冲区必须活得比节点久，节点只存指针，不复制字符串。 */
@@ -83,9 +84,11 @@ void setup(void)
 }
 ```
 
-这段是照着能编译的写法给的，`gcc -Wall -Wextra` 过。
+这段按 `.ino` 的方式编过一遍（`riscv32-esp-elf-g++ -x c++ -Wall -Wextra`），照抄进一个空 sketch 就能烧。少了 `loop()` 只是因为这里只关心页面怎么搭。
 
 控件有 `ll_label`、`ll_label_small`、`ll_list_item`（带右侧 `>`）、`ll_button`、`ll_check_box`，容器有 `ll_column`、`ll_row`、`ll_list`、`ll_scroll(content, 0)`。间距按"单位"算，`ll_set_padding_u(n, ll_insets_xy(4, 1))` 里一个单位等于默认字体行高的 1/15，换字体时比例不会崩。
+
+字体的情况值得单说一句。`ll_font_utf8_next` 会把 UTF-8 解成码点，`tf_font_find` 再按码点查字形，所以画文字这条链本身是全 Unicode 的，卡住的只是字形表里有什么。正文那套 `tf_notosans12pt` 一共 269 个字形，ASCII 可打印的 95 个之外还有拉丁补充、几个西里尔和希伯来字母、泰文、一个破折号、全角括号，汉字只有 9 个（中、文、繁、简、体、體、日、本、语），外加三个韩文音节，是上游 lilt 的 demo 字体裁出来的子集。页脚和小字用的 `tf_tinysz8pt7b` 干脆只有那 95 个 ASCII。查不到的码点走 `tf_font_missing_glyph`，宽高填 0 所以一个像素都不画，水平步进照走，看上去就是字之间空了一段，不会崩也不会把后面的字挤乱。要真在屏上写中文，拿 `host/tinyfont2c.py` 换一套带汉字的 tinyfont 进来就行，它读 tinyfont 的 Go 源、直接吐 C 数组，不需要 Go 工具链；字形表按码点排序做二分查找，多几百个字形只是多几 KB flash，一点 RAM 都不占。
 
 回调里别直接改界面。回调可能跑在按键任务里，和帧循环并发。规矩和 lilt 一样，把改动排进队列，下一帧开头统一执行：
 

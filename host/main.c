@@ -757,7 +757,7 @@ static void test_tour(void)
         const unsigned char *s = (const unsigned char *)ll_tour_caption(i);
         for (const unsigned char *c = s; *c; c++) {
             if (*c < 0x20 || *c > 0x7e) {
-                all_ascii = 0;      /* 那两套 tinyfont 只有 ASCII，汉字会画成空白 */
+                all_ascii = 0;      /* 页脚用小字体 tinysz8pt7b，95 个字形全在 ASCII 里，别的画成空位 */
             }
         }
         w = ll_font_text_width(LL_FONT_SMALL, ll_tour_caption(i));

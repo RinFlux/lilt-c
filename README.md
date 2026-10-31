@@ -29,7 +29,7 @@ Arduino 编库时会递归编译库里所有 `.c` 和 `.cpp`，只跳过 `exampl
 
 ## 三个例子
 
-先看 Tour。上电自己动，一圈约 20 秒，把走焦波浪、光标四边、按住连发、橡皮筋、按下反色松手才触发、整页滑入滑出、按钮横跳都演一遍，最后用 MENU 做一次手感 A/B，阻尼 0.75 对 0.45，演完回起点重来。屏幕底部那行小字是段落编号，中文解释走串口，屏上的字体只有 ASCII 那 95 个字符。你随手敲一个键，巡演就停在当场，按键全部交还给你。
+先看 Tour。上电自己动，一圈约 20 秒，把走焦波浪、光标四边、按住连发、橡皮筋、按下反色松手才触发、整页滑入滑出、按钮横跳都演一遍，最后用 MENU 做一次手感 A/B，阻尼 0.75 对 0.45，演完回起点重来。屏幕底部那行小字是段落编号，中文解释走串口。页脚那套小字体一共 95 个字形，全在 ASCII 里，汉字画上去是空位。你随手敲一个键，巡演就停在当场，按键全部交还给你。
 
 SpringLab 是弹簧实验台，四块区域分别演示过冲与阻尼、Ease 和 Spring 的差别、橡皮筋、一列跟着锚点错峰滑回的行走波浪，用来看参数改一下手感怎么变。
 
@@ -107,6 +107,8 @@ void loop(void)
 
 控件清单、间距单位、回调为什么要排进 `ll_app_do` 队列、坐标空间的两套约定，都在 [docs/internals.md](docs/internals.md)。
 
+想在屏上写中文，得换字体。现在这两套是上游 lilt 的 demo 字体裁出来的子集，正文那套 269 个字形里只有 9 个汉字，小字那套一个都没有。`host/tinyfont2c.py` 读 tinyfont 的 Go 源直接吐 C 数组，不需要 Go 工具链，换一套带汉字的进来就能写。
+
 ## 不上板先看画面
 
 引擎不碰硬件，所以在 PC 上编译同一份 `.c`，把 `ll_bus` 换成写文件的实现，就能录帧出图。
@@ -148,9 +150,12 @@ ll_conf.h     所有可调参数
 lilt_c.h      给 .ino 用的总包含，把引擎头包进 extern "C"
 demo_*.c/.h   三个示例页面，Tour 巡演、Gallery 相册、SpringLab 实验台
 tf_*.c        两套字体，notosans 12pt 正文和 tinysz 8pt7b 小字
+tf_font.h     tinyfont 的只读访问层，查字形走二分，一点 RAM 都不占
 examples/     Tour、SpringLab、Gallery 三个 .ino
-host/         PC 端，host_bus.c、main.c、render.py、check_panel.py、两个 build 脚本
+host/         PC 端，host_bus.c、main.c、render.py、check_panel.py、tinyfont2c.py、两个 build 脚本
 docs/         README 用的图，加 internals.md
+library.properties   IDE 认这个库靠它，architectures=esp32 决定示例菜单在哪些板子下出现
+keywords.txt         IDE 的语法高亮词表
 ```
 
 ## 许可
