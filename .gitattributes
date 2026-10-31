@@ -1,0 +1,14 @@
+# 这个库要在 Windows、Linux、macOS 上都能直接 sh host/build.sh，
+# 所以文本一律存 LF、检出也用 LF。装了 Git 的 Windows 机器上 core.autocrlf
+# 常常是 true，不加这一行的话脚本会被检出成 CRLF，shell 每行末尾多读一个 \r，
+# 报出来是一串看不懂的 "$'\r': command not found"。
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.py text eol=lf
+
+# 二进制，换行符不要动
+*.png binary
+*.gif binary
+*.jpg binary
+*.ico binary

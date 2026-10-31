@@ -1,0 +1,28 @@
+# 构建产物。主机自检的可执行文件、录下来的原始帧、GIF 和概览图都在 out/，
+# 交叉编译的 .o 在 out/esp32/，一律不进仓库；README 要用的那几张图在 docs/。
+out/
+*.o
+*.a
+*.elf
+*.bin
+*.map
+*.exe
+*.raw
+
+# Arduino 编译时生成的中间物
+build/
+*.ino.cpp
+*.ino.cpp.merged
+*.libsdetect.d
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 编辑器与系统
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
